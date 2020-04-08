@@ -1,28 +1,22 @@
 const express = require('express')
 const app = express()
+const mongoose = require('mongoose')
+
+
+mongoose.connect('mongodb://localhost:27017/node-api-101',{useNewUreParser:true})
+
+
+// สร้าง database schema
+const Cat = mongoose.model('Cat',{name:String})
+
+// สร้าง instance จาก model 
+const kitty = new Cat({name:'JavaScript'})
+
+// save ลง database (return เป็น Promise)
+kitty.save().then(()=> console.log('meow'))
+
 
 app.use(express.json())
-
-// mock data 
-const products = [{
-	id:'1001',
-	name:'Node 101 ',
-	category:'Node',
-	price : 990
-},
-{
-	id:'1002',
-	name:'React 101',
-	category:'React',
-	price : 9990
-},
-{
-	id:'1003',
-	name:'MongoDB 101',
-	category:'MongoDB',
-	price : 1990
-},
-]
 
 app.get('/products',(req,res)=>{
 	res.json(products)
